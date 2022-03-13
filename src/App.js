@@ -6,12 +6,30 @@ import Api from './api'
 function App() {
   let [data, setData] = useState();
   let [loading, setLoading] = useState(true);
+  let [latitude, setLatitude] = useState();
+  let [longitude, setLongitude] = useState();
+
+  function getLocation() {
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(setLocation);
+    } 
+    else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function setLocation(position) {    
+    console.log(position);
+    setLatitude(position.coords.latitude);
+    setLongitude(position.coords.longitude);
+  }
 
   async function getCurrentWeatherData(){
+    if (!latitude || !longitude) return;
     let apiData;
     setLoading(true);
     try {
-      let response = await Api.getCurrentWeatherData();
+      let response = await Api.getCurrentWeatherData(latitude, longitude);
       if (response.ok) apiData = await response.json();
       setData(apiData);
     } catch (e){
@@ -22,9 +40,14 @@ function App() {
 
   }
   useEffect(() => {
-    getCurrentWeatherData();
+    getLocation();
   },
   []);
+  
+  useEffect(() => {
+    getCurrentWeatherData();
+  },
+  [latitude, longitude]);
 
   return (
     <div className="App">
@@ -34,6 +57,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <p>
+        {latitude && longitude && (<p> latitude: {latitude} longitude: {longitude} </p>)}
         {!loading && data.main.temp}
         </p>
         <a
