@@ -90,7 +90,7 @@ function App() {
           </div>
           <p> Current temperature is {data.main.temp} C° but feels like {data.main.feels_like}. </p> 
           <p> The wind speed is {data.wind.speed} km/h and humidity level is {data.main.humidity}</p> 
-          <button onClick={updateData}> Update</button>        
+          <button onClick={updateData}> Click here to update data</button>        
         </div>
 
         <div className='map-container'>

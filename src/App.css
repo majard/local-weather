@@ -16,6 +16,9 @@ body {
   height: 80vh;
   display: flex;
   align-items: center;
+  justify-content: space-around;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 h1 {
   display: flex;
