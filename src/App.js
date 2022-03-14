@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Api from './api';
+import WeatherWidget from './WeatherWidget';
+
 
 function App() {
   let [data, setData] = useState();
@@ -19,7 +21,6 @@ function App() {
   }, []); 
 
   function setLocation(position) {    
-    console.log(position);
     setLatitude(position.coords.latitude);
     setLongitude(position.coords.longitude);
   }
@@ -59,7 +60,6 @@ function App() {
     async function getAddress(){
       if (!latitude || !longitude) return false;
       const currentAddress = await Api.getCurrentLocationAddress(latitude, longitude);
-      console.log('curre address:', currentAddress);
       setAddress(currentAddress);
     }
     getAddress();
@@ -75,8 +75,9 @@ function App() {
       </header>      
       <div className='content'>
         {latitude && longitude && (<p> latitude: {latitude} longitude: {longitude} </p>)}
-        {!loading && data.main.temp}
+        {!loading && <div> <p>A temperatura atual é {data.main.temp} C°</p> <p> O tempo está {data.weather[0].main} </p></div>}
         {!loading && address && (<p>Seu endereço atual é {address}</p>)}
+        <WeatherWidget condition={data.weather[0].main} description={data.weather[0].description} />
       </div>
     </div>
   );

@@ -13,10 +13,7 @@ export const Api = (() => {
     const getCurrentLocationAddress = async (lat, lon) => {
         let address;
         let response = await Geocode.fromLatLng(lat, lon);
-        console.log('response:', response);
-          
         address = response.results[0].formatted_address;
-        console.log(address);
 
         return address;
     }
