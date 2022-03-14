@@ -6,14 +6,24 @@ export const Api = (() => {
     Geocode.setLocationType("ROOFTOP");
 
     const getCurrentWeatherData = async (lat, lon) => {
-        let data = await fetch(CURRENT_WEATHER_DATA({lat, lon}))
+        let data;
+        try {
+        data = await fetch(CURRENT_WEATHER_DATA({lat, lon}))
+        } catch (e) {
+            console.log('error:', e);
+        }
         return data;
     }
 
     const getCurrentLocationAddress = async (lat, lon) => {
         let address;
-        let response = await Geocode.fromLatLng(lat, lon);
-        address = response.results[0].formatted_address;
+        let response;
+        try { 
+            response = await Geocode.fromLatLng(lat, lon);
+        } catch (e) {
+            console.log('error:', e);
+        }
+        address = response?.results[0]?.formatted_address || null;
 
         return address;
     }

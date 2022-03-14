@@ -6,9 +6,11 @@ REACT_APP_GOOGLE_MAPS_API_KEY and REACT_APP_OPEN_WEATHER_API_KEY.
 
 O app em funcionamento fica assim:
 
-![Screenshot do app](src/assets/screenshot.png?raw=true "Screenshot do app")
+![Screenshot do app](src/assets/screenshot.png?raw=true "Screenshot do app geolocalizado com tempo nublado")
+![Screenshot do app](src/assets/screenshot-germany.png?raw=true "Screenshot do app na alemanha com tempo bom")
+![Screenshot do app](src/assets/screenshot-greenland.png?raw=true "Screenshot do app na groenlandia com neve e sem endereço")
+![Screenshot do app](src/assets/screenshot-japan.png?raw=true "Screenshot do app no japão com chuva leve")
 
-# Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

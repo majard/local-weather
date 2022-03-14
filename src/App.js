@@ -78,12 +78,16 @@ function App() {
   useEffect(() => {
     async function getAddress(){
       if (!latitude || !longitude) return false;
+      console.log('searching address');
       const currentAddress = await Api.getCurrentLocationAddress(latitude, longitude);
+      console.log('currentad', currentAddress);
       setAddress(currentAddress);
     }
     getAddress();
   },
   [latitude, longitude]);
+
+  console.log('address: ', address);
 
   return (
     <div className="App">
