@@ -1,7 +1,32 @@
 body {
   background-color: darkviolet;
   padding: 4%;
+  height: calc(100vh - 8%);
+  width: calc(100vw - 8%);
+  box-sizing: border-box;
+}
+#root {
+  height: 100%;
+  width: 100%;
 }
 .App-header{
-  height: 20vh;
+  height: 20%;
+}
+.content {
+  height: 80%;
+}
+h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.weather-condition {
+  height: max-content;
+  display: flex;
+  align-items: center;
+}
+.map-container {
+  position: relative;
+  width: 50vw;
+  height: 50vh;
 }

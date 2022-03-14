@@ -32,8 +32,8 @@ function App() {
 
   const getCurrentWeatherData = useCallback(async ()=>{
     if (!latitude || !longitude) return;
+    if (!data) setLoading(true);
     let apiData;
-    setLoading(true);
     try {
       let response = await Api.getCurrentWeatherData(latitude, longitude);
       if (response.ok) apiData = await response.json();
@@ -45,6 +45,13 @@ function App() {
     }
 
   },[latitude, longitude]);
+
+  const updateData = useCallback(
+    () => {
+      getLocation();
+      getCurrentWeatherData();
+    }
+  )
 
   useEffect(() => {
     getLocation();
@@ -76,16 +83,20 @@ function App() {
       </header>      
       {!loading &&
       <div className='content'>
-        {latitude && longitude && (<p> latitude: {latitude} longitude: {longitude} </p>)}
         <div> 
-          <p> Current temperature is {data.main.temp} C°</p> 
-          <p> The weather is {data.weather[0].description} 
+          <div className='weather-condition'> 
+            The weather is {data.weather[0].description} 
             <WeatherWidget condition={data.weather[0].main} description={data.weather[0].description} />
-          </p>
-        
+          </div>
+          <p> Current temperature is {data.main.temp} C° but feels like {data.main.feels_like}. </p> 
+          <p> The wind speed is {data.wind.speed} km/h and humidity level is {data.main.humidity}</p> 
+          <button onClick={updateData}> Update</button>        
         </div>
+
         {address && (<p>Your current address is {address}</p>)}
-        <Map lat={latitude} lon={longitude}/>
+        <div className='map-container'>
+          <Map lat={latitude} lon={longitude}/>
+        </div>
       </div>
       }
     </div>
