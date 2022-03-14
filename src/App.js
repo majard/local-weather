@@ -83,7 +83,7 @@ function App() {
       </header>      
       {!loading &&
       <div className='content'>
-        <div> 
+        <div className='weather-data'> 
           <div className='weather-condition'> 
             The weather is {data.weather[0].description} 
             <WeatherWidget condition={data.weather[0].main} description={data.weather[0].description} />
@@ -93,8 +93,8 @@ function App() {
           <button onClick={updateData}> Update</button>        
         </div>
 
-        {address && (<p>Your current address is {address}</p>)}
         <div className='map-container'>
+          {address && (<p>Your current address is {address}</p>)}
           <Map lat={latitude} lon={longitude}/>
         </div>
       </div>
