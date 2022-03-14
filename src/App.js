@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Api from './api';
 import WeatherWidget from './WeatherWidget';
+import Map from './Map';
 
 
 function App() {
@@ -73,12 +74,20 @@ function App() {
         Local Weather App
         </h1>
       </header>      
+      {!loading &&
       <div className='content'>
         {latitude && longitude && (<p> latitude: {latitude} longitude: {longitude} </p>)}
-        {!loading && <div> <p>A temperatura atual é {data.main.temp} C°</p> <p> O tempo está {data.weather[0].main} </p></div>}
-        {!loading && address && (<p>Seu endereço atual é {address}</p>)}
-        <WeatherWidget condition={data.weather[0].main} description={data.weather[0].description} />
+        <div> 
+          <p> Current temperature is {data.main.temp} C°</p> 
+          <p> The weather is {data.weather[0].description} 
+            <WeatherWidget condition={data.weather[0].main} description={data.weather[0].description} />
+          </p>
+        
+        </div>
+        {address && (<p>Your current address is {address}</p>)}
+        <Map lat={latitude} lon={longitude}/>
       </div>
+      }
     </div>
   );
 }
