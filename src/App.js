@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
-import Api from './api'
+import Api from './api';
 
 function App() {
   let [data, setData] = useState();
   let [loading, setLoading] = useState(true);
   let [latitude, setLatitude] = useState();
   let [longitude, setLongitude] = useState();
+  let [address, setAddress] = useState();
 
-  function getLocation() {
+  const getLocation = useCallback(() => {
     if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(setLocation);
+      navigator.geolocation.getCurrentPosition(setLocation, geolocationFailed);
     } 
     else {
       alert("Geolocation is not supported by this browser.");
     }
-  }
+  }, []); 
 
   function setLocation(position) {    
     console.log(position);
@@ -24,7 +24,11 @@ function App() {
     setLongitude(position.coords.longitude);
   }
 
-  async function getCurrentWeatherData(){
+  function geolocationFailed(){
+    alert("Couldn't get your location from browser!");
+  }
+
+  const getCurrentWeatherData = useCallback(async ()=>{
     if (!latitude || !longitude) return;
     let apiData;
     setLoading(true);
@@ -38,37 +42,42 @@ function App() {
       setLoading(false);
     }
 
-  }
+  },[latitude, longitude]);
+
   useEffect(() => {
     getLocation();
   },
-  []);
+  [getLocation]);
   
   useEffect(() => {
     getCurrentWeatherData();
+  },
+  [getCurrentWeatherData, latitude, longitude]);
+
+  
+  useEffect(() => {
+    async function getAddress(){
+      if (!latitude || !longitude) return false;
+      const currentAddress = await Api.getCurrentLocationAddress(latitude, longitude);
+      console.log('curre address:', currentAddress);
+      setAddress(currentAddress);
+    }
+    getAddress();
   },
   [latitude, longitude]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
+        <h1>
+        Local Weather App
+        </h1>
+      </header>      
+      <div className='content'>
         {latitude && longitude && (<p> latitude: {latitude} longitude: {longitude} </p>)}
         {!loading && data.main.temp}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        {!loading && address && (<p>Seu endereço atual é {address}</p>)}
+      </div>
     </div>
   );
 }
