@@ -10,15 +10,20 @@ export class MapContainer extends Component {
   state = {
     showingInfoWindow: false,  // Hides or shows the InfoWindow
     activeMarker: {},          // Shows the active marker upon click
-    selectedPlace: {}          // Shows the InfoWindow to the selected place upon a marker
+    selectedPlace: {},         // Shows the InfoWindow to the selected place upon a marker
+    currentPosition: {
+      lat: this.props.lat,
+      lng: this.props.lon
+    }
   };
 
-  onMarkerClick = (props, marker, e) =>
+  onMarkerClick = (props, marker, e) => {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
     });
+  }
 
   onClose = props => {
     if (this.state.showingInfoWindow) {
@@ -27,6 +32,15 @@ export class MapContainer extends Component {
         activeMarker: null
       });
     }
+  };
+
+  onMarkerDragEnd = (coord) => {
+    const { latLng } = coord;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
+    const currentPosition = {lat, lng};
+    this.setState({currentPosition});
+    this.props.setPosition(lat, lng);
   };
 
   render() {
@@ -44,6 +58,9 @@ export class MapContainer extends Component {
       >
         <Marker
           onClick={this.onMarkerClick}
+          position={this.state.currentPosition}
+          onDragend={(t, map, coord) => this.onMarkerDragEnd(coord)}
+          draggable={true}
         />
         <InfoWindow
           marker={this.state.activeMarker}

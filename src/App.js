@@ -51,7 +51,18 @@ function App() {
       getLocation();
       getCurrentWeatherData();
     }
-  )
+  );
+  
+  const setPosition = useCallback(
+    (lat, lon) => {
+      console.log('lat:', lat, 'lon', lon);
+      setLatitude(lat);
+      setLongitude(lon);      
+      getCurrentWeatherData();
+    }
+  );
+
+
 
   useEffect(() => {
     getLocation();
@@ -95,7 +106,7 @@ function App() {
 
         <div className='map-container'>
           {address && (<p>Your current address is {address}</p>)}
-          <Map lat={latitude} lon={longitude}/>
+          <Map lat={latitude} lon={longitude} setPosition={setPosition} />
         </div>
       </div>
       }
