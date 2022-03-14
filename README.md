@@ -4,6 +4,10 @@ also google maps api to provide current address and map location based on latitu
 For both it is necessary to provide API keys to be put in a .env file on root folder under the names
 REACT_APP_GOOGLE_MAPS_API_KEY and REACT_APP_OPEN_WEATHER_API_KEY.
 
+O app em funcionamento fica assim:
+
+![Screenshot do app](src/assets/screenshot.png?raw=true "Screenshot do app")
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
